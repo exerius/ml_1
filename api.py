@@ -33,7 +33,7 @@ def predict_item(item: Item) -> dict: #чтобы не возиться с не�
 @app.post("/predict_items")
 def predict_items(items: UploadFile=File(...)):
     data = read_csv(items.file, index_col=0)
-    preds = model.predict(data)
+    preds = model.predict(scaler.transform(data))
     data['predictions']= preds
     data.to_csv('response.csv')
     return FileResponse('response.csv')
